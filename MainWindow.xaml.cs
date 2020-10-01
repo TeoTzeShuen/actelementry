@@ -13,6 +13,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using AssettoCorsaSharedMemory;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace actelementry
 {
@@ -23,8 +24,10 @@ namespace actelementry
     {
         AssettoCorsa ac = new AssettoCorsa();
         public int curRPM;
+        public int curGear;
         public int MaxRPM;
-
+        public int PitLimit;
+        public float DRS;
 
 
         public MainWindow()
@@ -78,6 +81,7 @@ namespace actelementry
 
         public void ac_StaticInfoUpdated(object sender, StaticInfoEventArgs e)
         {
+            
             MaxRPM = e.StaticInfo.MaxRpm;
             Application.Current.Dispatcher.BeginInvoke(
                 DispatcherPriority.Background,
@@ -87,18 +91,76 @@ namespace actelementry
         public void ac_PhysicsUpdated(object sender, PhysicsEventArgs e)
         {
             curRPM = e.Physics.Rpms;
+            curGear = e.Physics.Gear;
+            PitLimit = e.Physics.PitLimiterOn;
+            DRS = e.Physics.Drs;
+            
+            
             try
             {
+                MainLabelUpdater();
+
                 Application.Current.Dispatcher.BeginInvoke(
                     DispatcherPriority.Background,
                     new Action(() => this.RPMmeter.Value = curRPM));
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => GearLabel.Content = curGear.ToString()));
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => LabelStatus.Content = "Connected!"));
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => LabelStatus.Foreground = Color.Aquamarine.ToBrush()));
             }
             catch
             {
-                LabelStatus.Content = "Error! Has AC Closed?";
-                LabelStatus.Foreground = Color.Crimson.ToBrush();
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => LabelStatus.Content = "Error!"));
+
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => LabelStatus.Foreground = Color.Crimson.ToBrush()));
+
+                
             }
             
+        }
+
+        public void MainLabelUpdater()
+        {
+            if (PitLimit == 1)
+            {
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => MainLabel.Content = "PIT"));
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => MainLabel.Foreground = Color.Crimson.ToBrush()));
+
+            }
+
+            if (DRS == 1)
+            {
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => MainLabel.Content = "DRS"));
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => MainLabel.Foreground = Color.LawnGreen.ToBrush()));
+
+            }
+
+            else
+            {
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => MainLabel.Content = curRPM.ToString()));
+                Application.Current.Dispatcher.BeginInvoke(
+                    DispatcherPriority.Background,
+                    new Action(() => MainLabel.Foreground = Color.White.ToBrush()));
+            }
         }
 
     }

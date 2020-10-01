@@ -5,12 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:actelementry"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1074.3" Width="1920" Activated="Window_Activated"
+        Title="MainWindow" Height="718" Width="1280" Activated="Window_Activated"
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True">
     <Grid>
-        <Button x:Name="ButtonCheck" Content="Check Again!" HorizontalAlignment="Left" Margin="10,1001,0,0" VerticalAlignment="Top" Width="108" Click="ButtonCheck_Click"/>
-        <Label x:Name="LabelStatus" Content="" HorizontalAlignment="Left" Margin="123,1007,0,0" VerticalAlignment="Top"/>
-        <ProgressBar x:Name="RPMmeter" HorizontalAlignment="Left" Height="82" Margin="10,10,0,0" VerticalAlignment="Top" Width="1892" Maximum="10000000"/>
+        <Button x:Name="ButtonCheck" Content="Check Again!" HorizontalAlignment="Left" Margin="10,645,0,0" VerticalAlignment="Top" Width="108" Click="ButtonCheck_Click"/>
+        <Label x:Name="LabelStatus" Content="" HorizontalAlignment="Left" Margin="132,645,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <ProgressBar x:Name="RPMmeter" HorizontalAlignment="Left" Height="18" Margin="10,10,0,0" VerticalAlignment="Top" Width="1252" Maximum="10000000"/>
+        <Label x:Name="GearLabel" Content="1" HorizontalAlignment="Left" Margin="1143,-26,0,0" VerticalAlignment="Top" Height="236" Width="129" FontSize="200" FontFamily="Source Code Pro"/>
+        <Label x:Name="MainLabel" Content="+STANDBY+" Margin="0,202,0,0" FontSize="200" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Width="1267" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>
