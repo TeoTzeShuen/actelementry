@@ -20,8 +20,8 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
-        <ProgressBar x:Name="RPMmeter" HorizontalAlignment="Left" Height="18" Margin="10,10,0,0" VerticalAlignment="Top" Width="1252" Maximum="10000000"/>
-        <Label x:Name="GearLabel" Content="1" HorizontalAlignment="Left" Margin="1143,-26,0,0" VerticalAlignment="Top" Height="236" Width="129" FontSize="200" FontFamily="Source Code Pro"/>
-        <Label x:Name="MainLabel" Content="+STANDBY+" Margin="0,202,0,0" FontSize="200" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Width="1267" HorizontalContentAlignment="Center"/>
+        <ProgressBar x:Name="RPMmeter" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" VerticalAlignment="Top" Width="1252" Maximum="10000000" Foreground="Red" Background="#33FFFFFF" MinHeight="3"/>
+        <Label x:Name="GearLabel" Content="1" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" Height="302" Width="1254" FontSize="300" FontFamily="Source Code Pro" HorizontalContentAlignment="Center"/>
+        <Label x:Name="MainLabel" Content="&gt;STANDBY&lt;" Margin="0,330,0,0" FontSize="130" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Width="1267" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>

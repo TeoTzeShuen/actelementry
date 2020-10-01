@@ -28,8 +28,7 @@ namespace actelementry
         public int MaxRPM;
         public int PitLimit;
         public float DRS;
-
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -61,8 +60,6 @@ namespace actelementry
             ac.StaticInfoUpdated += ac_StaticInfoUpdated; // Add event listener for StaticInfo
             ac.PhysicsInterval = 10;
             ac.PhysicsUpdated += ac_PhysicsUpdated;
-
-            
         }
 
         private void ButtonCheck_Click(object sender, RoutedEventArgs e)
@@ -91,7 +88,7 @@ namespace actelementry
         public void ac_PhysicsUpdated(object sender, PhysicsEventArgs e)
         {
             curRPM = e.Physics.Rpms;
-            curGear = e.Physics.Gear;
+            curGear = e.Physics.Gear - 1;
             PitLimit = e.Physics.PitLimiterOn;
             DRS = e.Physics.Drs;
             
@@ -100,30 +97,19 @@ namespace actelementry
             {
                 MainLabelUpdater();
 
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => this.RPMmeter.Value = curRPM));
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => GearLabel.Content = curGear.ToString()));
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => LabelStatus.Content = "Connected!"));
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => LabelStatus.Foreground = Color.Aquamarine.ToBrush()));
+                Dispatcher.Invoke(() => {
+                    this.RPMmeter.Value = curRPM;
+                    GearLabel.Content = curGear.ToString();
+                    LabelStatus.Content = "Connected!";
+                    LabelStatus.Foreground = Color.Aquamarine.ToBrush();
+                });
             }
             catch
             {
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => LabelStatus.Content = "Error!"));
-
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => LabelStatus.Foreground = Color.Crimson.ToBrush()));
-
-                
+                Dispatcher.Invoke(() => {
+                    LabelStatus.Content = "Error!";
+                    LabelStatus.Foreground = Color.Crimson.ToBrush();
+                });
             }
             
         }
@@ -132,34 +118,34 @@ namespace actelementry
         {
             if (PitLimit == 1)
             {
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => MainLabel.Content = "PIT"));
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => MainLabel.Foreground = Color.Crimson.ToBrush()));
-
+                Dispatcher.Invoke(() => {
+                    MainLabel.Content = "PIT";
+                    MainLabel.Foreground = Color.Crimson.ToBrush();
+                });
             }
 
             if (DRS == 1)
             {
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => MainLabel.Content = "DRS"));
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => MainLabel.Foreground = Color.LawnGreen.ToBrush()));
+                Dispatcher.Invoke(() => {
+                    MainLabel.Content = "DRS";
+                    MainLabel.Foreground = Color.LawnGreen.ToBrush();
+                });
+            }
 
+            if (curRPM / MaxRPM > 0.8)
+            {
+                Dispatcher.Invoke(() => {
+                    MainLabel.Content = "SHIFT";
+                    MainLabel.Foreground = Color.Crimson.ToBrush();
+                });
             }
 
             else
             {
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => MainLabel.Content = curRPM.ToString()));
-                Application.Current.Dispatcher.BeginInvoke(
-                    DispatcherPriority.Background,
-                    new Action(() => MainLabel.Foreground = Color.White.ToBrush()));
+                Dispatcher.Invoke(() => {
+                    MainLabel.Content = curRPM.ToString();
+                    MainLabel.Foreground = Color.White.ToBrush();
+                });
             }
         }
 
