@@ -1,0 +1,16 @@
+﻿<Window x:Class="actelementry.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:actelementry"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1074.3" Width="1920" Activated="Window_Activated"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+        ui:WindowHelper.UseModernWindowStyle="True">
+    <Grid>
+        <Button x:Name="ButtonCheck" Content="Check Again!" HorizontalAlignment="Left" Margin="10,1001,0,0" VerticalAlignment="Top" Width="108" Click="ButtonCheck_Click"/>
+        <Label x:Name="LabelStatus" Content="" HorizontalAlignment="Left" Margin="123,1007,0,0" VerticalAlignment="Top"/>
+        <ProgressBar x:Name="RPMmeter" HorizontalAlignment="Left" Height="82" Margin="10,10,0,0" VerticalAlignment="Top" Width="1892" Maximum="10000000"/>
+    </Grid>
+</Window>
