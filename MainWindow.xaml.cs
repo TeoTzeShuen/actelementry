@@ -56,9 +56,9 @@ namespace actelementry
 
         public void everything()
         {
-            ac.StaticInfoInterval = 5000; // Get StaticInfo updates ever 5 seconds
+            ac.StaticInfoInterval = 10000; // Get StaticInfo updates ever 10 seconds
             ac.StaticInfoUpdated += ac_StaticInfoUpdated; // Add event listener for StaticInfo
-            ac.PhysicsInterval = 10;
+            ac.PhysicsInterval = 50; //mess around with this value - higher = lower cpu usage
             ac.PhysicsUpdated += ac_PhysicsUpdated;
         }
 
@@ -78,11 +78,12 @@ namespace actelementry
 
         public void ac_StaticInfoUpdated(object sender, StaticInfoEventArgs e)
         {
-            
             MaxRPM = e.StaticInfo.MaxRpm;
-            Application.Current.Dispatcher.BeginInvoke(
-                DispatcherPriority.Background,
-                new Action(() => this.RPMmeter.Maximum = MaxRPM));
+
+            Dispatcher.Invoke(() => {
+                this.RPMmeter.Maximum = MaxRPM;
+            });
+
         }
 
         public void ac_PhysicsUpdated(object sender, PhysicsEventArgs e)
@@ -91,62 +92,58 @@ namespace actelementry
             curGear = e.Physics.Gear - 1;
             PitLimit = e.Physics.PitLimiterOn;
             DRS = e.Physics.Drs;
-            
-            
-            try
-            {
-                MainLabelUpdater();
 
-                Dispatcher.Invoke(() => {
+            Dispatcher.Invoke(() => 
+            {
+                try
+                {
+                    MainLabelUpdater();
+
                     this.RPMmeter.Value = curRPM;
                     GearLabel.Content = curGear.ToString();
                     LabelStatus.Content = "Connected!";
                     LabelStatus.Foreground = Color.Aquamarine.ToBrush();
-                });
-            }
-            catch
-            {
-                Dispatcher.Invoke(() => {
+
+                    RPMlabel.Content = curRPM.ToString();
+                    RPMlabel.Foreground = Color.Gray.ToBrush();
+
+                }
+                catch
+                {
                     LabelStatus.Content = "Error!";
                     LabelStatus.Foreground = Color.Crimson.ToBrush();
-                });
-            }
-            
+                }
+            });
         }
 
         public void MainLabelUpdater()
         {
-            if (PitLimit == 1)
+            Dispatcher.Invoke(() =>
             {
-                Dispatcher.Invoke(() => {
+                if (PitLimit > 0)
+                {
                     MainLabel.Content = "PIT";
                     MainLabel.Foreground = Color.Crimson.ToBrush();
-                });
-            }
+                }
 
-            if (DRS == 1)
-            {
-                Dispatcher.Invoke(() => {
+                if (DRS > 0)
+                {
                     MainLabel.Content = "DRS";
                     MainLabel.Foreground = Color.LawnGreen.ToBrush();
-                });
-            }
+                }
 
-            if (curRPM / MaxRPM > 0.8)
-            {
-                Dispatcher.Invoke(() => {
+                if ((curRPM / MaxRPM) > 0.5)
+                {
                     MainLabel.Content = "SHIFT";
                     MainLabel.Foreground = Color.Crimson.ToBrush();
-                });
-            }
+                }
 
-            else
-            {
-                Dispatcher.Invoke(() => {
-                    MainLabel.Content = curRPM.ToString();
-                    MainLabel.Foreground = Color.White.ToBrush();
-                });
-            }
+                else
+                {
+                    //keep last state
+                }
+
+            });
         }
 
     }

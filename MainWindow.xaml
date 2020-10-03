@@ -21,7 +21,10 @@
             </Label.RenderTransform>
         </Label>
         <ProgressBar x:Name="RPMmeter" HorizontalAlignment="Left" Height="17" Margin="10,10,0,0" VerticalAlignment="Top" Width="1252" Maximum="10000000" Foreground="Red" Background="#33FFFFFF" MinHeight="3"/>
-        <Label x:Name="GearLabel" Content="1" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" Height="302" Width="1254" FontSize="300" FontFamily="Source Code Pro" HorizontalContentAlignment="Center"/>
+        <Label x:Name="GearLabel" HorizontalAlignment="Left" Margin="10,28,0,0" VerticalAlignment="Top" Height="302" Width="1254" FontSize="300" FontFamily="Source Code Pro" HorizontalContentAlignment="Center" Content="nC"/>
         <Label x:Name="MainLabel" Content="&gt;STANDBY&lt;" Margin="0,330,0,0" FontSize="130" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Arial" Width="1267" HorizontalContentAlignment="Center"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="240,335,240,226"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="470,116,470,357"/>
+        <Label x:Name="RPMlabel" Content="20000" FontSize="100" Margin="486,-15,486,576" HorizontalContentAlignment="Center"/>
     </Grid>
 </Window>
